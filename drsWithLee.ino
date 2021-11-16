@@ -4,12 +4,27 @@ int brake = 0;    // amount of brake applied (current range is 0-1023)
 int buttTO = 0;   // times out the drs button so it can be used later
 int brakePin = 5; // pin the brake input is on
 int buttPin = 7;  // pin that the button is on
-int drsPin = 12;  // pin the output is on.
+int drsPin = 8;  // pin the output is on.
 int drsButt = 0;  // status of the drs button
 int attack = 50;  // angle of attack mode for servo
 int defense = 0;  // angle of defense mode for servo
 int servoPin = 3; // pin the servo is on
 Servo lee;        // Choose lee. Theres a million lees. 
+
+/* Pins on the arduino:
+ *  Button:     7
+ *  Brake :     A5
+ *  DRS output: 8
+ *  
+ *  Ground for the potentimeter (brake) needs to be seperate
+ *  from the common ground. It's very sensitve. 
+ *  
+ *  4 Pin buttons need to have 5v and GND on one side and CMD 
+ *  on the other, also a 10kohm resistor on gnd is recomended.    
+ *          _
+ *   cmd - | | - GND
+ *       - |_| - 5v
+ */
 
 void setup(){
 
