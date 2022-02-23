@@ -47,30 +47,34 @@ void loop(){
   
   // NEXT, WAIT FOR THE RIGHT CONDITIONS.
   
-if (drsButt == 1 && brake == 0){        // checks to see if the brake is being pressed at all & button is pressed
-    buttTO = 1;                           
-    do {      
-        if (buttTO == 1){ 
-          while(drsButt ==1){           // This ass of a nested loop waits 1ms after first pressing 
-            drs(true);                  // the button to see if youre still holding it down, and acts accordingly                           
-            delay(1);                       
-            drsButt = digitalRead(buttPin);
-          }                       
-        } 
-      drs(true);                          // turns on drs
-      brake = analogRead(brakePin);       // reads and sets brake and satus for next loop
-      drsButt = digitalRead(buttPin);
-      //Serial.println(drsButt);      
-
-    }while(brake == 0 && drsButt != 1);     
-    // DO THE ABOVE UNTIL THE BRAKE OR BUTTON IS PRESSED
-    
-    drs(false);                           // when brake or button is pressed, it breaks the loop and goes here. 
-    delay(250);
-  }
-  drs(false);
+  if (drsButt == 1 && brake == 0){        // checks to see if the brake is being pressed at all & button is pressed
+      buttTO = 1;                           
+      do {      
+          if (buttTO == 1){ 
+          timeOut(true);                    // this needs to be here because this is only done once at the begining.
+          buttTO = 0;
+          }
+        drs(true);                          // turns on drs
+        brake = analogRead(brakePin);       // reads and sets brake and satus for next loop
+        drsButt = digitalRead(buttPin);
+        //Serial.println(drsButt);      
+  
+      }while(brake == 0 && drsButt != 1);     
+      // DO THE ABOVE UNTIL THE BRAKE OR BUTTON IS PRESSED
+      timeOut(false);                       // to wait for the button to be unpressed
+      drs(false);                           // when brake or button is pressed, it breaks the loop and goes here. 
+    }
+    drs(false);
 }
 
+
+void timeOut(bool dres){  // TIME OUT LOOP WHEN WAITING ON A HUMAN TO UNPRESS A BUTTON
+  while (drsButt == 1){
+    drs(dres);
+    delay(1);
+    drsButt = digitalRead(buttPin);
+  }
+}
 
 
 void drs(bool status){   // WHAT HAPPENS WHEN DRS IS ENABLED?
